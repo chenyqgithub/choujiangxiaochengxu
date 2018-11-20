@@ -1,0 +1,31 @@
+<view class="list-header">
+	<view class="header-pic">
+		<image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+	</view>
+
+	<!-- <view class="list-btn">
+		<button bindtap="gotoLottery" type="primary">去扫码</button>
+	</view> -->
+
+	<!-- <view class="header-name">
+		{{userInfo.nickName}}，
+		<block wx:if="{{awardsList.length > 0}}">恭喜您获得了以下奖品：</block>
+		<block wx:else>您还中奖，快去抽奖吧。</block>
+	</view> -->
+
+	<!-- <view class="list-container" wx:for="{{awardsList}}" wx:key="unique">
+		<view class="list-item">{{item}}</view>
+	</view> -->
+  <view>
+    <label>姓名</label>
+     <input name="input" placeholder="请输入你的姓名" />
+     <label>电话号码</label>
+     <input name="input" placeholder="请输入你的电话号码" />
+     <label>地址</label>
+     <input name="input" placeholder="地址信息" />
+     <button class="list-btn">提交信息</button>
+  </view>
+
+	
+</view>
+
