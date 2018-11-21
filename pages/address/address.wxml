@@ -18,12 +18,12 @@
 	</view> -->
   <view>
     <label>姓名</label>
-     <input name="input" placeholder="请输入你的姓名" />
+     <input name="name" placeholder="请输入你的姓名" bindinput="nameNameInput"/>
      <label>电话号码</label>
-     <input name="input" placeholder="请输入你的电话号码" />
+     <input name="phone" placeholder="请输入你的电话号码" bindinput="phoneInput"/>
      <label>地址</label>
-     <input name="input" placeholder="地址信息" />
-     <button class="list-btn">提交信息</button>
+     <input name="address" placeholder="地址信息" bindinput="addressInput"/>
+     <button class="list-btn" bindtap="gotoLottery">提交信息</button>
   </view>
 
 	

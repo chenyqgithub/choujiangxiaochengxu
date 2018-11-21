@@ -14,20 +14,54 @@ Page({
     wx.scanCode({
       onlyFromCamera: true,
       success(res) {
-        console.log(res)
-        scanCount++;
-        wx.showModal({ title: '提示', content: '扫描成功次数' + scanCount })
+        console.log(res) 
+        
+        //将扫码数据传入后台进行对比 返回值 -1奖品不足 0成功  -1扫码信息不可用
+        //https://hybc.ikeek.cn:8443/api/code/validationCode?code=
+        wx.request({
+          url: 'https://hybc.ikeek.cn:8443/api/code/validationCode?code=' + res.result,
+          method: 'get',
+          data: {
+            add: res.result
+          },
+          header: {
+            'Content-Type': 'application/json'
+          },
+          success: function (data) {
+            console.log(data)
+            if(data.data==0){
+              scanCount++;
+             
+
+              if (scanCount >= 6) {//进行抽奖
+                that.setData({
+                  btnDisabled: '',
+                  btnClass: 'color:#ccc; pointer-events: none;',
+                })
+                scanCount == 0;
+                wx.showModal({ title: '提示', content: '你已达到抽奖条件' })
+              } else {
+                wx.showModal({ title: '提示', content: '你还差(' + (6 - scanCount) + ')次扫码可抽奖' })
+              }
+            }else if(data.data==-1){
+              wx.showModal({ title: '提示', content: '暂无奖品'})
+            } else if (data.data == 1) {
+              wx.showModal({ title: '提示', content: '本次扫码无效' })
+            }
+          },
+          fail: function (error) {
+            console.log(error)
+            wx.showModal({
+              title: '抱歉',
+              content: '网络异常，请重试',
+              showCancel: false
+            })
+            //解除扫码操作
+          }
+        })
        
-        if (scanCount >= 6) {//进行抽奖
-          that.setData({
-            btnDisabled: '',
-            btnClass:'color:#ccc; pointer-events: none;',
-          })
-          scanCount==0;
-          wx.showModal({ title: '提示', content: '你已达到抽奖条件'})
-        } else {
-          wx.showModal({ title: '提示', content: '你还差(' + (6 - scanCount)+')次扫码可抽奖' })
-        }
+       
+       
       }
     })
     // wx.switchTab({
@@ -36,90 +70,120 @@ Page({
   },
   getLottery: function() {
     var that = this
+    //调用后台接口进行抽奖
+    ///https://hybc.ikeek.cn:8443/api/code/choujiang
+
     var awardIndex = Math.random() * 4 >>> 0;
-
-    // 获取奖品配置
-    var awardsConfig = app.awardsConfig,
-      runNum = 8
-    if (awardIndex < 2) awardsConfig.chance = false
-    console.log(awardIndex)
-
-    // 初始化 rotate
-    /*  var animationInit = wx.createAnimation({
-        duration: 10
-      })
-      this.animationInit = animationInit;
-      animationInit.rotate(0).step()
-      this.setData({
-        animationData: animationInit.export(),
-        btnDisabled: 'disabled'
-      })*/
-
-    // 旋转抽奖
-    app.runDegs = app.runDegs || 0
-    console.log('deg', app.runDegs)
-    app.runDegs = app.runDegs + (360 - app.runDegs % 360) + (360 * runNum - awardIndex * (360 / 4))
-    console.log('deg', app.runDegs)
-
-    var animationRun = wx.createAnimation({
-      duration: 4000,
-      timingFunction: 'ease'
-    })
-    that.animationRun = animationRun
-    animationRun.rotate(app.runDegs).step()
-    that.setData({
-      animationData: animationRun.export(),
-      btnDisabled: 'disabled'
-    })
-
-    // 记录奖品
-    var winAwards = wx.getStorageSync('winAwards') || {
-      data: []
-    }
-    winAwards.data.push(awardsConfig.awards[awardIndex].name + '1个')
-    wx.setStorageSync('winAwards', winAwards)
-
-
-    // 中奖提示
-    setTimeout(function() {
-      wx.showModal({
-        title: '恭喜',
-        content: '获得' + (awardsConfig.awards[awardIndex].name),
-        showCancel: false,
-        complete:function(res){
-          scanCount = 0
-          that.setData({
-            btnClass: '',
-          })
-          // wx.navigateTo({
-          //   url: '../address/address'
-          // })
-        }
-      })
-      
-      if (awardsConfig.chance) {
-        that.setData({
-          btnDisabled: 'disabled'
-        })
-
-      }
-    }, 4000);
-
-//锁定扫码操作
+    var awardIndex = -1;
     wx.request({
-      url: 'https://hybc.ikeek.cn:8443/api/aa',
+      url: 'https://hybc.ikeek.cn:8443/api/code/choujiang',
       method: 'post',
       data: {
-        username: 'admin',
-        password: 111111
       },
       header: {
         'Content-Type': 'application/json'
       },
-      success: function(data) {
+      success: function (data) {
         console.log(data)
+        awardIndex=data.data;
+
+        // 获取奖品配置
+        var awardsConfig = app.awardsConfig,
+          runNum = 8
+        if (awardIndex < 2) awardsConfig.chance = false
+        console.log(awardIndex)
+
+        // 初始化 rotate
+        /*  var animationInit = wx.createAnimation({
+            duration: 10
+          })
+          this.animationInit = animationInit;
+          animationInit.rotate(0).step()
+          this.setData({
+            animationData: animationInit.export(),
+            btnDisabled: 'disabled'
+          })*/
+
+        // 旋转抽奖
+        app.runDegs = app.runDegs || 0
+        console.log('deg', app.runDegs)
+        app.runDegs = app.runDegs + (360 - app.runDegs % 360) + (360 * runNum - awardIndex * (360 / 4))
+        console.log('deg', app.runDegs)
+
+        var animationRun = wx.createAnimation({
+          duration: 4000,
+          timingFunction: 'ease'
+        })
+        that.animationRun = animationRun
+        animationRun.rotate(app.runDegs).step()
+        that.setData({
+          animationData: animationRun.export(),
+          btnDisabled: 'disabled'
+        })
+
+        // 记录奖品
+        var winAwards = wx.getStorageSync('winAwards') || {
+          data: []
+        }
+        winAwards.data.push(awardsConfig.awards[awardIndex].name + '1个')
+        wx.setStorageSync('winAwards', winAwards)
+
+
+        // 中奖提示
+        setTimeout(function () {
+          wx.showModal({
+            title: '恭喜',
+            content: '获得' + (awardsConfig.awards[awardIndex].name),
+            showCancel: false,
+            complete: function (res) {
+              scanCount = 0
+              that.setData({
+                btnClass: '',
+              })
+              if (awardIndex!=3){
+                wx.navigateTo({
+                  url: '../address/address'
+                })
+              }else{
+                //进行保存用户信息
+                wx.request({
+                  url: 'https://hybc.ikeek.cn:8443/api/code/insertUserInfo',
+                  method: 'post',
+                  data: {
+                    name: 'this.data.name',
+                    phone: 'this.data.phone',
+                    address: 'this.data.address',
+                    rewardtype: 3,
+                  },
+                  header: {
+                    'Content-Type': 'application/json'
+                  },
+                  success: function (data) {
+                    
+                  },
+                  fail: function (error) {
+                    console.log(error)
+                    wx.showModal({
+                      title: '抱歉',
+                      content: '网络异常，请重试',
+                      showCancel: false
+                    })
+                  }
+                })
+              }
+              
+            }
+          })
+
+          if (awardsConfig.chance) {
+            that.setData({
+              btnDisabled: 'disabled'
+            })
+
+          }
+        }, 4000);
       },
-      fail: function(error) {
+      fail: function (error) {
         console.log(error)
         wx.showModal({
           title: '抱歉',
@@ -129,6 +193,32 @@ Page({
         //解除扫码操作
       }
     })
+
+
+//锁定扫码操作
+    // wx.request({
+    //   url: 'https://hybc.ikeek.cn:8443/api/aa',
+    //   method: 'post',
+    //   data: {
+    //     username: 'admin',
+    //     password: 111111
+    //   },
+    //   header: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   success: function(data) {
+    //     console.log(data)
+    //   },
+    //   fail: function(error) {
+    //     console.log(error)
+    //     wx.showModal({
+    //       title: '抱歉',
+    //       content: '网络异常，请重试',
+    //       showCancel: false
+    //     })
+    //     //解除扫码操作
+    //   }
+    // })
   },
   onReady: function(e) {
 

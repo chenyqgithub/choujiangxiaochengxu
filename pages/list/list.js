@@ -11,11 +11,14 @@ Page({
   gotoLottery: function() {
      
     wx.navigateTo({
-      url: '../address/address'
+      url: '../address/address?rewardtype=2'
     })
+    // var awardIndex = Math.random() * 4 >>> 0;
+    // console.log(awardIndex)
    
   },
   onLoad: function () {
+     
     var that = this
     var list = wx.getStorageSync('winAwards') || {data:[]}
 
