@@ -18,7 +18,6 @@ Page({
    
   },
   onLoad: function () {
-     console.log(44)
     var that = this
     var list = wx.getStorageSync('winAwards') || {data:[]}
 
