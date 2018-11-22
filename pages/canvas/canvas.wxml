@@ -28,7 +28,7 @@
 
 		<view class="main-container ">
 			<view class="main-container-btn">
-				<button bindtap="gotoList" type="primary" style="{{btnClass}}">去扫码</button>	
+				<button  bindtap="gotoList" type="primary" style="{{btnClass}}">去扫码</button>	
 			</view>
 			<view class="main-container-rule">
 				<text class="main-rule-title">活动规则：</text>

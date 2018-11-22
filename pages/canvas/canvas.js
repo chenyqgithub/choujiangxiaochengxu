@@ -142,24 +142,35 @@ Page({
               })
               if (awardIndex!=3){
                 wx.navigateTo({
-                  url: '../address/address'
+                  url: '../address/address?rewardtype=' + awardIndex
                 })
               }else{
                 //进行保存用户信息
+                // wx.login({
+                //   success: function () {
+                //     wx.getUserInfo({
+                //       success: function (res) {
+                //         var simpleUser = res.userInfo;
+                //         console.log(simpleUser);
+                        
+                //       }
+                //     });
+                //   }
+                // });
                 wx.request({
                   url: 'https://hybc.ikeek.cn:8443/api/code/insertUserInfo',
                   method: 'post',
                   data: {
-                    name: 'this.data.name',
-                    phone: 'this.data.phone',
-                    address: 'this.data.address',
+                    name: 'simpleUser.nickName',
+                    phone: '',
+                    address: 'simpleUser.province' + ' ' + 'simpleUser.city',
                     rewardtype: 3,
                   },
                   header: {
                     'Content-Type': 'application/json'
                   },
                   success: function (data) {
-                    
+
                   },
                   fail: function (error) {
                     console.log(error)

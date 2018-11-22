@@ -30,6 +30,19 @@ Page({
   gotoLottery: function(e) {
     console.log(e)
     //进行保存用户信息
+    if (this.data.name.length == 0 || this.data.phone.length == 0 || this.data.address==0){
+      setTimeout(function () {
+        wx.showModal({
+          title: '提交失败',
+          content: '请填写完整信息',
+          showCancel: false,
+          complete: function (res) {
+            
+          }
+        })
+      })
+      return;
+    }
      wx.request({
        url: 'https://hybc.ikeek.cn:8443/api/code/insertUserInfo',
       method: 'post',
@@ -44,9 +57,21 @@ Page({
       },
       success: function(data) {
         console.log(data)
-         wx.switchTab({
-           url: '../canvas/canvas'
+        // 
+        setTimeout(function () {
+          wx.showModal({
+            title: '提示',
+            content: '提交信息成功',
+            showCancel: false,
+            complete: function (res) {
+              wx.switchTab({
+                url: '../canvas/canvas'
+              })
+
+            }
+          })
         })
+        // 
       },
       fail: function(error) {
         console.log(error)
@@ -62,6 +87,7 @@ Page({
    
   },
   onLoad: function (option) {
+    console.log(option)
     rewardtype = option.rewardtype
     var that = this
     var list = wx.getStorageSync('winAwards') || {data:[]}

@@ -33,3 +33,6 @@ page {
 .list-btn{
 	margin: 1rem 2rem;
 }
+.list-header label{
+color:green;
+}

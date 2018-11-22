@@ -9,10 +9,17 @@ Page({
   },
   //事件处理函数
   gotoLottery: function() {
-     
-    wx.navigateTo({
-      url: '../address/address?rewardtype=2'
-    })
+        // wx.getUserInfo({
+        //   success: function (res) {
+        //     var simpleUser = res.userInfo;
+        //     console.log(simpleUser);
+            
+        //   }
+        // });
+      
+    // wx.navigateTo({
+    //   url: '../address/address?rewardtype=2'
+    // })
     // var awardIndex = Math.random() * 4 >>> 0;
     // console.log(awardIndex)
    
@@ -21,7 +28,7 @@ Page({
      
     var that = this
     var list = wx.getStorageSync('winAwards') || {data:[]}
-
+console.log(list)
     if (list && list.data && list.data.length > 0) {
       list = list.data
     }else {
@@ -29,12 +36,15 @@ Page({
     }
 
     //调用应用实例的方法获取全局数据
-    app.getUserInfo(function(userInfo){
-      //更新数据
-      that.setData({
-        userInfo:userInfo,
-        awardsList: list || []
-      })
+    // app.getUserInfo(function(userInfo){
+    //   //更新数据
+    //   that.setData({
+    //     userInfo:userInfo,
+    //     awardsList: list || []
+    //   })
+    // })
+    that.setData({
+      awardsList: list || []
     })
   }
 })
