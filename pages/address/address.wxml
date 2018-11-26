@@ -17,12 +17,19 @@
 		<view class="list-item">{{item}}</view>
 	</view> -->
   <view>
-    <label>姓名</label>
-     <input name="name" placeholder="请输入签收人姓名" bindinput="nameNameInput"/>
-     <label>电话号码</label>
-     <input name="phone" placeholder="请输入签收人电话号码" bindinput="phoneInput"/>
-     <label>地址</label>
-     <input name="address" placeholder="请输入签收地址信息" bindinput="addressInput"/>
+     <view>
+        <label>姓名</label>
+         <input name="name" placeholder="请输入签收人姓名" bindinput="nameNameInput" style='display:inline-block'/>
+     </view>
+     <view>
+        <label>电话</label>
+        <input name="phone" placeholder="请输入签收人电话" bindinput="phoneInput" style='display:inline-block'/>
+     </view>
+     <view>
+        <label>地址</label>
+        <input name="address" placeholder="请输入签收人地址" bindinput="addressInput" style='display:inline-block'/>
+     </view>
+     
      <button class="list-btn" bindtap="gotoLottery">提交信息</button>
   </view>
 

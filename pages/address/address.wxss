@@ -35,4 +35,11 @@ page {
 }
 .list-header label{
 color:green;
+text-align: right;
+
+}
+.list-header input{
+text-align: left;
+margin-left:16px;
+
 }

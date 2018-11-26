@@ -1,0 +1,8 @@
+<view class="list-header">
+  <view class='whole' bindtap="gotoLottery" style="background:url('{{imgurl}}') no-repeat #000;background-size:cover">
+  <view class="list-btn" >
+    <button plain style="border:0;color:white" >点击屏幕领取奖品</button>
+	</view>
+  </view>
+	
+</view>

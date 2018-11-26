@@ -6,7 +6,7 @@
 	</view>
 
 	<view class="main">
-		<view class="canvas-container">
+		<view class="canvas-container" style='display:none'>
 			<view  animation="{{animationData}}" class="canvas-content" >
 				<canvas style="width: 300px; height: 300px;" class="canvas-element" canvas-id="lotteryCanvas"></canvas>
 
@@ -22,20 +22,24 @@
 
 				
 			</view>
-
-			<view bindtap="getLottery" class="canvas-btn {{btnDisabled}}">抽奖</view>		
+	
 		</view>
-
 		<view class="main-container ">
 			<view class="main-container-btn">
 				<button  bindtap="gotoList" type="primary" style="{{btnClass}}">去扫码</button>	
 			</view>
+      	<view class="main-container-rule"></view>
+      <view  style='color:green;text-align:center'> {{messageNum}}</view>
+      <view class="list-container" wx:for="{{scancodetext}}" wx:key="unique">
+		      <view class="list-item">{{item}}</view>
+	    </view>
 			<view class="main-container-rule">
-				<text class="main-rule-title">活动规则：</text>
-				<text class="main-rule-item">一等奖 10 华为 P20 手机 3388 元 </text>
-				<text class="main-rule-item">二等奖 100 新秀丽背包 680 元 </text>	
-				<text class="main-rule-item">三等奖 240 小米手环 169 元</text>	
-				<text class="main-rule-item">四等奖 1650 酒杯酒具套装礼盒 98 元</text>	
+      	<!-- <text class="main-rule-item" style='color:green;text-align:center'> {{messageNum}} </text> -->
+				<text class="main-rule-title">活动奖品：</text>
+				<text class="main-rule-item">一等奖  华为 P20 手机 3388 元 </text>
+				<text class="main-rule-item">二等奖  新秀丽背包 680 元 </text>	
+				<text class="main-rule-item">三等奖  小米手环 169 元</text>	
+				<text class="main-rule-item">四等奖  酒杯酒具套装礼盒 98 元</text>	
 			</view>	
 		</view>
 

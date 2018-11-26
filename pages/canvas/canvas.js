@@ -1,12 +1,115 @@
 var app = getApp()
 var scanCount = 0;
 var table=null;
+var getLotteryFun = function () 
+{
+  var that = this
+  //调用后台接口进行抽奖
+  ///https://hybc.ikeek.cn:8443/api/code/choujiang
+
+  var awardIndex = Math.random() * 4 >>> 0;
+  var awardIndex = -1;
+  wx.request({
+    url: 'https://hybc.ikeek.cn:8443/api/code/choujiang',
+    method: 'post',
+    data: {
+    },
+    header: {
+      'Content-Type': 'application/json'
+    },
+    success: function (data) {
+      console.log(data)
+      awardIndex = data.data;
+
+      // 获取奖品配置
+      var awardsConfig = app.awardsConfig,
+        runNum = 8
+      if (awardIndex < 2) awardsConfig.chance = false
+      console.log(awardIndex)
+
+      // 记录奖品
+      var winAwards = wx.getStorageSync('winAwards') || {
+        data: []
+      }
+      winAwards.data.push(awardsConfig.awards[awardIndex].name + '1个')
+      wx.setStorageSync('winAwards', winAwards)
+
+
+      // 中奖提示
+      setTimeout(function () {
+        wx.showModal({
+          title: '恭喜',
+          content: '恭喜您 获得' + (awardsConfig.awards[awardIndex].name),
+          showCancel: false,
+          complete: function (res) {
+            scanCount = 0
+            if (awardIndex != 3) {
+              wx.navigateTo({
+                url: '../showreward/showreward?rewardtype=' + awardIndex
+              })
+              // wx.navigateTo({
+              //   url: '../address/address?rewardtype=' + awardIndex
+              // })
+
+            } else {
+              //进行保存用户信息
+              wx.request({
+                url: 'https://hybc.ikeek.cn:8443/api/code/insertUserInfo',
+                method: 'post',
+                data: {
+                  name: 'simpleUser.nickName',
+                  phone: '',
+                  address: 'simpleUser.province' + ' ' + 'simpleUser.city',
+                  rewardtype: 3,
+                },
+                header: {
+                  'Content-Type': 'application/json'
+                },
+                success: function (data) {
+
+                },
+                fail: function (error) {
+                  console.log(error)
+                  wx.showModal({
+                    title: '抱歉',
+                    content: '网络异常，请重试',
+                    showCancel: false
+                  })
+                }
+              })
+            }
+
+          }
+        })
+
+        if (awardsConfig.chance) {
+          // that.setData({
+          //   btnDisabled: 'disabled'
+          // })
+
+        }
+      }, 1000);
+    },
+    fail: function (error) {
+      console.log(error)
+      wx.showModal({
+        title: '抱歉',
+        content: '网络异常，请重试',
+        showCancel: false
+      })
+      //解除扫码操作
+    }
+  })
+
+};
 Page({
   data: {
     awardsList: {},
+    scancodetext: {},
     animationData: {},
     btnDisabled: 'disabled',
     btnClass: '',
+    messageNum:'你还需要6次成功扫码可进行抽奖',
   },
   gotoList: function() {
     //进行扫码
@@ -30,19 +133,55 @@ Page({
           success: function (data) {
             console.log(data)
             if(data.data==0){
-              scanCount++;
-             
+              // 记录扫描码
+              var scancodetexts = wx.getStorageSync('winscancodetext') || {
+                data: []
+              }
+              scancodetexts.data.push('条码信息:' + res.result)
+              wx.setStorageSync('winscancodetext', scancodetexts)
 
+              //绑定条码
+              var list = wx.getStorageSync('winscancodetext') || { data: [] }
+              if (list && list.data && list.data.length > 0) {
+                list = list.data
+              } else {
+                list = []
+              }
+              that.setData({
+                scancodetext: list || []
+              })
+              console.log(list)
+              scanCount++;
               if (scanCount >= 6) {//进行抽奖
+              //清空scancodetext
+                wx.setStorageSync('winscancodetext', [])
                 that.setData({
                   btnDisabled: '',
-                  btnClass: 'color:#ccc; pointer-events: none;',
+                  // btnClass: 'color:#ccc; pointer-events: none;',
                 })
                 scanCount == 0;
-                wx.showModal({ title: '提示', content: '你已达到抽奖条件' })
+                // wx.showModal({ title: '提示', content: '你已达到抽奖条件' })
+                //进行抽奖
+                wx.showModal({
+                  title: '提示',
+                  content: '获得你已达到抽奖资格,点击确定进行抽奖',
+                  showCancel: false,
+                  complete: function (res) {
+                    getLotteryFun();
+                  }
+                })
+                
+                //点击确认进行跳转页面
               } else {
-                wx.showModal({ title: '提示', content: '你还差(' + (6 - scanCount) + ')次扫码可抽奖' })
+                // wx.showModal({ title: '提示', content: '你还差(' + (6 - scanCount) + ')次扫码可抽奖' })
+                var messageNum = '你还需要成功扫码' + (6 - scanCount)+'次可抽奖'
+                  table.setData({
+                    messageNum: messageNum
+                  });
+
               }
+            } else if (data.data == -2) {
+              wx.showModal({ title: '提示', content: '活动已经结束' })
             }else if(data.data==-1){
               wx.showModal({ title: '提示', content: '暂无奖品'})
             } else if (data.data == 1) {
@@ -319,6 +458,25 @@ table=that;
       actions: ctx.getActions()
     })*/
 
+  }, onShow:function () {
+    var that = this
+    console.log(22)
+    var messageNum = '你还需要成功扫码' + (6 - scanCount) + '次可抽奖'
+    that.setData({
+      messageNum: messageNum
+    });
+    //初始化扫描code
+    var list = wx.getStorageSync('winscancodetext') || { data: [] }
+    if (list && list.data && list.data.length > 0) {
+      list = list.data
+    } else {
+      list = []
+    }
+    that.setData({
+      scancodetext: list || []
+    })
+    console.log(list)
   }
+
 
 })

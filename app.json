@@ -1,9 +1,11 @@
 {
   "pages":[
+    
     "pages/index/index",
     "pages/list/list",
     "pages/canvas/canvas",
     "pages/address/address",
+    "pages/showreward/showreward",
     "pages/logs/logs"
   ],
   "window":{

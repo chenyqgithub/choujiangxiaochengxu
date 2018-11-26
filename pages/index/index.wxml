@@ -1,22 +1,8 @@
 <view class="list-header">
-
-
-	<!-- <view class="list-btn">
-		<button bindtap="gotoLottery" type="primary">填写信息</button>
-	</view> -->
-
-	<!-- <view class="header-name">
-		{{userInfo.nickName}}，
-		<block wx:if="{{awardsList.length > 0}}">恭喜您获得了以下奖品：</block>
-		<block wx:else>您还中奖，快去抽奖吧。</block>
-	</view>
-
-	<view class="list-container" wx:for="{{awardsList}}" wx:key="unique">
-		<view class="list-item">{{item}}</view>
-	</view> -->
   <view class='whole' bindtap="gotoLottery">
-  <view class="list-btn" bindtap="gotoLottery">
-		<button plain style="background-color: #E74143;border:0;color:white" bindtap="gotoLottery">点击屏幕去扫码抽奖</button>
+  <view class="list-btn" >
+		<!-- <button plain style="background-color: #E74143;border:0;color:white" bindtap="gotoLottery">点击屏幕去扫码抽奖</button> -->
+    <!-- <button plain style="border:0;color:white" >点击屏幕去扫码抽奖</button> -->
 	</view>
   </view>
 	
