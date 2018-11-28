@@ -37,50 +37,55 @@ var getLotteryFun = function ()
 
       // 中奖提示
       setTimeout(function () {
-        wx.showModal({
-          title: '恭喜',
-          content: '恭喜您 获得' + (awardsConfig.awards[awardIndex].name),
-          showCancel: false,
-          complete: function (res) {
-            scanCount = 0
-            if (awardIndex != 3) {
+        // wx.showModal({
+        //   title: '恭喜',
+        //   content: '恭喜您 获得' + (awardsConfig.awards[awardIndex].name),
+        //   showCancel: false,
+        //   complete: function (res) {
+            
+
+        //   }
+        // })
+        //---
+        scanCount = 0
+        if (awardIndex != 3) {
+          wx.navigateTo({
+            url: '../showreward/showreward?rewardtype=' + awardIndex
+          })
+          // wx.navigateTo({
+          //   url: '../address/address?rewardtype=' + awardIndex
+          // })
+
+        } else {
+          //进行保存用户信息
+          wx.request({
+            url: 'https://hybc.ikeek.cn:8443/api/code/insertUserInfo',
+            method: 'post',
+            data: {
+              name: 'simpleUser.nickName',
+              phone: '',
+              address: 'simpleUser.province' + ' ' + 'simpleUser.city',
+              rewardtype: 3,
+            },
+            header: {
+              'Content-Type': 'application/json'
+            },
+            success: function (data) {
               wx.navigateTo({
-                url: '../showreward/showreward?rewardtype=' + awardIndex
+                url: '../showreward/showreward?rewardtype=3'
               })
-              // wx.navigateTo({
-              //   url: '../address/address?rewardtype=' + awardIndex
-              // })
-
-            } else {
-              //进行保存用户信息
-              wx.request({
-                url: 'https://hybc.ikeek.cn:8443/api/code/insertUserInfo',
-                method: 'post',
-                data: {
-                  name: 'simpleUser.nickName',
-                  phone: '',
-                  address: 'simpleUser.province' + ' ' + 'simpleUser.city',
-                  rewardtype: 3,
-                },
-                header: {
-                  'Content-Type': 'application/json'
-                },
-                success: function (data) {
-
-                },
-                fail: function (error) {
-                  console.log(error)
-                  wx.showModal({
-                    title: '抱歉',
-                    content: '网络异常，请重试',
-                    showCancel: false
-                  })
-                }
+            },
+            fail: function (error) {
+              console.log(error)
+              wx.showModal({
+                title: '抱歉',
+                content: '网络异常，请重试',
+                showCancel: false
               })
             }
-
-          }
-        })
+          })
+        }
+        //---
 
         if (awardsConfig.chance) {
           // that.setData({
@@ -88,7 +93,7 @@ var getLotteryFun = function ()
           // })
 
         }
-      }, 1000);
+      }, 600);
     },
     fail: function (error) {
       console.log(error)
@@ -134,9 +139,13 @@ Page({
             console.log(data)
             if(data.data==0){
               // 记录扫描码
-              var scancodetexts = wx.getStorageSync('winscancodetext') || {
-                data: []
+              var scancodetexts = wx.getStorageSync('winscancodetext') 
+              if(scancodetexts.length==0){
+                scancodetexts= {
+                  data: []
+                }
               }
+              console.log(scancodetexts)
               scancodetexts.data.push('条码信息:' + res.result)
               wx.setStorageSync('winscancodetext', scancodetexts)
 
@@ -459,6 +468,8 @@ table=that;
     })*/
 
   }, onShow:function () {
+    
+
     var that = this
     console.log(22)
     var messageNum = '你还需要成功扫码' + (6 - scanCount) + '次可抽奖'
@@ -476,7 +487,26 @@ table=that;
       scancodetext: list || []
     })
     console.log(list)
+    // 跑马灯
+    //获取跑马灯显示文本
+    wx.request({
+      url: 'https://hybc.ikeek.cn:8443/api/code/getmarqueetext',
+      method: 'post',
+      data: {
+      },
+      header: {
+        'Content-Type': 'application/json'
+      },
+      success: function(data) {
+        console.log(data)
+        that.setData({
+          msgList: data.data
+        });
+
+      },
+      fail: function(error) {
+        console.log(error)
+      }
+    })
   }
-
-
 })

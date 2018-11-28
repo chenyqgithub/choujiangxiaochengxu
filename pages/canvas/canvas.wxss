@@ -172,4 +172,35 @@ page {
 	display: block;
 	padding: 2px 0;
 }
+/* 跑马灯 */
+.example {
+  display: block;
+  width: 10%;
+  height: 100rpx;
+}
+
+.marquee_box {
+  width: 10%;
+  position: relative;
+}
+
+.marquee_text {
+  white-space: nowrap;
+  position: absolute;
+  top: 0;
+}
+
+/*  */
+.swiper_container {
+ height: 50rpx;
+ width: 80vw;
+}
+ 
+.swiper_item {
+  color: rgb(18, 153, 59);
+ font-size: 24rpx;
+ overflow: hidden;
+ text-overflow: ellipsis;
+ white-space: nowrap;
+}
 

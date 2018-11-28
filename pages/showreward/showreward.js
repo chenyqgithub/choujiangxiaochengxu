@@ -11,6 +11,23 @@ Page({
   },
   //事件处理函数
   gotoLottery: function() {
+    if (rewardtype!=3){
+      wx.redirectTo({
+        url: '../address/address?rewardtype=' + rewardtype
+      })
+    }else{
+      wx.showModal({
+          title: '恭喜',
+          content: '恭喜您 获得四等奖 在中奖记录中可查看',
+          showCancel: false,
+          complete: function (res) {
+            wx.switchTab({
+              url: '../canvas/canvas'
+            })
+
+          }
+        })
+    }
         // wx.getUserInfo({
         //   success: function (res) {
         //     var simpleUser = res.userInfo;
@@ -19,9 +36,7 @@ Page({
         //   }
         // });
       
-    wx.redirectTo({
-      url: '../address/address?rewardtype=' + rewardtype
-    })
+    
     // var awardIndex = Math.random() * 4 >>> 0;
     // console.log(awardIndex)
    

@@ -18,7 +18,7 @@ Page({
         // });
       
     wx.navigateTo({
-      url: '../showreward/showreward?rewardtype=0'
+      url: '../showreward/showreward?rewardtype=3'
     })
     // var awardIndex = Math.random() * 4 >>> 0;
     // console.log(awardIndex)
