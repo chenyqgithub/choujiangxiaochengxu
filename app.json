@@ -1,9 +1,10 @@
 {
   "pages":[
+    "pages/address/address",
     "pages/index/index",
     "pages/list/list",
     "pages/canvas/canvas",
-    "pages/address/address",
+    
     "pages/showreward/showreward",
     "pages/logs/logs"
   ],
@@ -21,8 +22,13 @@
     "backgroundColor": "#eee",
     "borderStyle": "white",
     "list": [{
+        "pagePath": "pages/index/index",
+        "text": "抽奖介绍",
+        "iconPath": "image/icon.png",
+        "selectedIconPath": "image/icon-HL.png"
+      },{
       "pagePath": "pages/canvas/canvas",
-      "text": "去抽奖",
+      "text": "抽奖",
       "iconPath": "image/icon.png",
       "selectedIconPath": "image/icon-HL.png"
     }, {

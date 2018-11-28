@@ -1,21 +1,7 @@
-<view class="list-header">
+<!-- <view class="list-header">
 	<view class="header-pic">
 		<image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
 	</view>
-
-	<!-- <view class="list-btn">
-		<button bindtap="gotoLottery" type="primary">去扫码</button>
-	</view> -->
-
-	<!-- <view class="header-name">
-		{{userInfo.nickName}}，
-		<block wx:if="{{awardsList.length > 0}}">恭喜您获得了以下奖品：</block>
-		<block wx:else>您还中奖，快去抽奖吧。</block>
-	</view> -->
-
-	<!-- <view class="list-container" wx:for="{{awardsList}}" wx:key="unique">
-		<view class="list-item">{{item}}</view>
-	</view> -->
   <view>
      <view>
         <label>姓名</label>
@@ -32,7 +18,24 @@
      
      <button class="list-btn" bindtap="gotoLottery">提交信息</button>
   </view>
+</view> -->
+<!--  -->
+<view class="container">
+        <view class="row top" >
+            <text>姓 名：</text>
+            <input type="text" name="name" placeholder="请输入签收人姓名" bindinput="nameNameInput"/>
+        </view>
+        <view class="row">
+            <text>电 话：</text>
+            <input type="text" name="phone" placeholder="请输入签收人电话" bindinput="phoneInput"/>
+        </view>
+         <view class="row">
+            <text>地 址：</text>
+            <input type="text" name="address" placeholder="请输入签收人地址" bindinput="addressInput" />
+        </view>
+        <view class="row">
+            <button type="primary" form-type="submit" bindtap="gotoLottery">提交</button>
+        </view>
 
-	
 </view>
 
