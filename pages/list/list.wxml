@@ -9,7 +9,7 @@
 
 	<view class="header-name">
 		{{userInfo.nickName}}  
-		<block wx:if="{{awardsList.length > 0}}">恭喜您获得了以下奖品：</block>
+		<block wx:if="{{awardsList.length > 0}}" >恭喜您获得了以下奖品：</block>
 		<block wx:else>您还中奖，快去抽奖吧。</block>
 	</view>
 

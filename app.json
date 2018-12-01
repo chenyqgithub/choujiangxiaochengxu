@@ -1,10 +1,10 @@
 {
   "pages":[
-    "pages/address/address",
+   
     "pages/index/index",
     "pages/list/list",
     "pages/canvas/canvas",
-    
+    "pages/address/address",
     "pages/showreward/showreward",
     "pages/logs/logs"
   ],
@@ -24,18 +24,18 @@
     "list": [{
         "pagePath": "pages/index/index",
         "text": "抽奖介绍",
-        "iconPath": "image/icon.png",
-        "selectedIconPath": "image/icon-HL.png"
+        "iconPath": "image/1-1.png",
+        "selectedIconPath": "image/1-2.png"
       },{
       "pagePath": "pages/canvas/canvas",
       "text": "抽奖",
-      "iconPath": "image/icon.png",
-      "selectedIconPath": "image/icon-HL.png"
+      "iconPath": "image/2-1.png",
+      "selectedIconPath": "image/2-2.png"
     }, {
       "pagePath": "pages/list/list",
       "text": "中奖记录",
-      "iconPath": "image/icon.png",
-      "selectedIconPath": "image/icon-HL.png"
+      "iconPath": "image/3-1.png",
+      "selectedIconPath": "image/3-2.png"
     }]
   }
 }

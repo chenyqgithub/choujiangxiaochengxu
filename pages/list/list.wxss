@@ -1,5 +1,5 @@
 page {
-	padding: 15px;
+	/* padding: 1rem; */
 }
 .list-header{
 	display: block;
@@ -16,14 +16,17 @@ page {
 
 .header-name{
 	font-size: 20px;
+  color: red;
 }
 .list-container{
 	margin: 10px;
+  margin-left: 1.5rem;
 	padding: 5px 10px;
 	border: 1px solid #ccc;
 	background-color: #eee;
-	text-align: left;
+	text-align: center;
 	border-radius: 10px;
+  width: 20rem;
 }
 .list-item{
 	display: block;
@@ -31,5 +34,5 @@ page {
 }
 
 .list-btn{
-	margin: 1rem 2rem;
+	margin: 1rem 1rem;
 }

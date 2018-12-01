@@ -2,7 +2,7 @@
 
   <view class="header">
     <text class="header-title"> 喝中国红，赢华为P20 </text>
-    <text class="header-subtitle">  集齐 6 个二维码，即可在页面内参与抽奖 </text>
+    <text class="header-subtitle">  集齐 6 个条形码，即可在页面内参与抽奖 </text>
   </view>
 
   <view class="main">
@@ -35,11 +35,14 @@
       </view>
       <view class="main-container-rule">
         <!-- <text class="main-rule-item" style='color:green;text-align:center'> {{messageNum}} </text> -->
-        <text class="main-rule-title">活动奖品：</text>
-        <text class="main-rule-item">一等奖  华为 P20 手机 3388 元 </text>
+        <text class="main-rule-title">兑奖方式：</text>
+        <text class="main-rule-item">一二三等奖录入收奖信息，邮寄奖品。 </text>
+        <text class="main-rule-item">四等奖线下购酒出凭抽奖序列号登记直接领奖。</text>
+        <!-- <text class="main-rule-item">一等奖  华为 P20 手机 3388 元 </text>
         <text class="main-rule-item">二等奖  新秀丽背包 680 元 </text>
         <text class="main-rule-item">三等奖  小米手环 169 元</text>
-        <text class="main-rule-item">四等奖  酒杯酒具套装礼盒 98 元</text>
+        <text class="main-rule-item">四等奖  酒杯酒具套装礼盒 98 元</text> -->
+        
       </view>
     </view>
     <view class="main-container ">
