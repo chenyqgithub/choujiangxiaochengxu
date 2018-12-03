@@ -1,6 +1,7 @@
 var app = getApp()
 var scanCount = 0;
 var table=null;
+var rewardtNum=-1;
 var getLotteryFun = function () 
 {
   var that = this
@@ -31,7 +32,25 @@ var getLotteryFun = function ()
       var winAwards = wx.getStorageSync('winAwards') || {
         data: []
       }
-      winAwards.data.push(awardsConfig.awards[awardIndex].name + '1个')
+      var timestamp = Date.parse(new Date());
+      timestamp = timestamp / 1000;
+      var n = timestamp * 1000;
+      var date = new Date(n);
+      //年
+      var Y = date.getFullYear();
+      //月
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+      //日
+      var D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+      //时
+      var h = date.getHours();
+      //分
+      var m = date.getMinutes();
+      //秒
+      var s = date.getSeconds();
+
+      var nowdate = Y + "-" + M + "-" + D + " " + h + ":" + m + ":" + s;
+      winAwards.data.push(awardsConfig.awards[awardIndex].name + '1个 ' )
       wx.setStorageSync('winAwards', winAwards)
 
 
@@ -48,14 +67,18 @@ var getLotteryFun = function ()
         // })
         //---
         scanCount = 0
+        rewardtNum = awardIndex;
         if (awardIndex != 3) {
-          wx.navigateTo({
-            url: '../showreward/showreward?rewardtype=' + awardIndex
-          })
+          // wx.navigateTo({
+          //   url: '../showreward/showreward?rewardtype=' + awardIndex
+          // })
           // wx.navigateTo({
           //   url: '../address/address?rewardtype=' + awardIndex
           // })
-
+          table.setData({
+            imgurl: 'https://hybc.ikeek.cn:8443/api/code/prizeimg/' + awardIndex,
+            modalHidden: false
+          })
         } else {
           //进行保存用户信息
           wx.request({
@@ -71,8 +94,13 @@ var getLotteryFun = function ()
               'Content-Type': 'application/json'
             },
             success: function (data) {
-              wx.navigateTo({
-                url: '../showreward/showreward?rewardtype=3'
+              console.log("4等奖")
+              // wx.navigateTo({
+              //   url: '../showreward/showreward?rewardtype=3'
+              // })
+              table.setData({
+                imgurl: 'https://hybc.ikeek.cn:8443/api/code/prizeimg/' + awardIndex,
+                modalHidden: false
               })
             },
             fail: function (error) {
@@ -115,6 +143,8 @@ Page({
     btnDisabled: 'disabled',
     btnClass: '',
     messageNum:'你还需要6次成功扫码可进行抽奖',
+    modalHidden: true,
+    imgurl:'https://hybc.ikeek.cn:8443/api/code/prizeimg/0',
   },
   gotoList: function() {
     //进行扫码
@@ -170,12 +200,12 @@ Page({
                 })
                 scanCount == 0;
                 // wx.showModal({ title: '提示', content: '你已达到抽奖条件' })
-                //进行抽奖
                 wx.showModal({
                   title: '提示',
                   content: '获得你已达到抽奖资格,点击确定进行抽奖',
                   showCancel: false,
                   complete: function (res) {
+                    
                     getLotteryFun();
                   }
                 })
@@ -187,7 +217,6 @@ Page({
                   table.setData({
                     messageNum: messageNum
                   });
-
               }
             } else if (data.data == -2) {
               wx.showModal({ title: '提示', content: '活动已经结束' })
@@ -215,6 +244,39 @@ Page({
     // wx.switchTab({
     //   url: '../list/list'
     // })
+  },
+  /**
+  *  自定义弹出点击确认
+  */
+  modalConfirm: function () {
+    if(rewardtNum==3){
+      wx.showModal({
+        title: '恭喜',
+        content: '恭喜您 获得四等奖 在中奖记录中可查看',
+        showCancel: false,
+        complete: function (res) {
+          var messageNum = '你还需要成功扫码' + (6 - scanCount) + '次可抽奖'
+          table.setData({
+            messageNum: messageNum
+          });
+          table.setData({
+            modalHidden: true
+          })
+        }
+      })
+    } else if (rewardtNum == 0 || rewardtNum == 1 || rewardtNum == 2){
+      this.setData({
+        modalHidden: true
+      })
+      wx.redirectTo({
+        url: '../address/address?rewardtype=' + rewardtNum
+      })
+    }else{
+      this.setData({
+        modalHidden: true
+      })
+    }
+   
   },
   getLottery: function() {
     var that = this
@@ -273,7 +335,25 @@ Page({
         var winAwards = wx.getStorageSync('winAwards') || {
           data: []
         }
-        winAwards.data.push(awardsConfig.awards[awardIndex].name + '1个')
+        var timestamp = Date.parse(new Date());
+        timestamp = timestamp / 1000;
+        var n = timestamp * 1000;
+        var date = new Date(n);
+        //年
+        var Y = date.getFullYear();
+        //月
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+        //日
+        var D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+        //时
+        var h = date.getHours();
+        //分
+        var m = date.getMinutes();
+        //秒
+        var s = date.getSeconds();
+
+        var nowdate = Y + "-" + M + "-" + D + " " + h + ":" + m + ":" + s;
+        winAwards.data.push(awardsConfig.awards[awardIndex].name + '1个 ')
         wx.setStorageSync('winAwards', winAwards)
 
 
@@ -468,7 +548,7 @@ table=that;
     })*/
 
   }, onShow:function () {
-    
+    rewardtNum=-1;
 
     var that = this
     console.log(22)

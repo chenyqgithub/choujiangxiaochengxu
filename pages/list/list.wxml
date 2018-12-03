@@ -4,7 +4,7 @@
 	</view>
 
 	<!-- <view class="list-btn">
-		<button bindtap="gotoLottery" type="primary">填写信息</button>
+		<button bindtap="buttonTap" type="primary">填写信息</button>
 	</view> -->
 
 	<view class="header-name">
@@ -17,6 +17,13 @@
 		<view class="list-item">{{item}}</view>
 	</view>
 
-	
+<view class='container'>
+  <modal title="提示" hidden="{{modalHidden}}" no-cancel="true" bindconfirm="modalConfirm" bindcancel="modalCandel">
+    <view>
+      <image class="image" src="https://hybc.ikeek.cn:8443/api/code/img" mode='aspectFill'></image>
+    </view>
+  </modal>
+
+</view>
 </view>
 

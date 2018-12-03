@@ -29,20 +29,15 @@
         <button bindtap="gotoList" type="primary" style="{{btnClass}}">去扫码</button>
       </view>
       <view class="main-container-rule"></view>
-      <view style='color:green;text-align:center'> {{messageNum}}</view>
-      <view class="list-container" wx:for="{{scancodetext}}" wx:key="unique">
+      <view style='color:red;text-align:center;font-size:22px'> {{messageNum}}</view>
+      <view class="list-container" wx:for="{{scancodetext}}" wx:key="unique" style='display:none'>
         <view class="list-item">{{item}}</view>
       </view>
       <view class="main-container-rule">
         <!-- <text class="main-rule-item" style='color:green;text-align:center'> {{messageNum}} </text> -->
         <text class="main-rule-title">兑奖方式：</text>
-        <text class="main-rule-item">一二三等奖录入收奖信息，邮寄奖品。 </text>
-        <text class="main-rule-item">四等奖线下购酒出凭抽奖序列号登记直接领奖。</text>
-        <!-- <text class="main-rule-item">一等奖  华为 P20 手机 3388 元 </text>
-        <text class="main-rule-item">二等奖  新秀丽背包 680 元 </text>
-        <text class="main-rule-item">三等奖  小米手环 169 元</text>
-        <text class="main-rule-item">四等奖  酒杯酒具套装礼盒 98 元</text> -->
-        
+        <text class="main-rule-item">一等奖、二等奖、三等奖请在中奖页面点击“领取奖品”填写领奖人信息，奖品将由活动官方指定的正规渠道直接邮寄发放。 </text>
+        <text class="main-rule-item">四等奖（精美酒具）请凭收据及中奖信息直接在购酒处兑付奖品。</text>
       </view>
     </view>
     <view class="main-container ">
@@ -62,5 +57,12 @@
       </view>
     </view>
   </view>
-
+<!-- 自定义弹出层 -->
+<view >
+  <modal title="恭喜" hidden="{{modalHidden}}" no-cancel="true" bindconfirm="modalConfirm" bindcancel="modalCandel" catchtouchmove="preventTouchMove" confirm-text="领取奖品">
+    <view>
+      <image class="image" src="{{imgurl}}"  style='width:17.5rem'></image>
+    </view>
+  </modal>
+</view>
 </view>
