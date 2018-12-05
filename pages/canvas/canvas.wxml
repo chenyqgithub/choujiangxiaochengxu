@@ -33,12 +33,11 @@
       <view class="list-container" wx:for="{{scancodetext}}" wx:key="unique" style='display:none'>
         <view class="list-item">{{item}}</view>
       </view>
-      <view class="main-container-rule">
-        <!-- <text class="main-rule-item" style='color:green;text-align:center'> {{messageNum}} </text> -->
+      <!-- <view class="main-container-rule">
         <text class="main-rule-title">兑奖方式：</text>
         <text class="main-rule-item">一等奖、二等奖、三等奖请在中奖页面点击“领取奖品”填写领奖人信息，奖品将由活动官方指定的正规渠道直接邮寄发放。 </text>
         <text class="main-rule-item">四等奖（精美酒具）请凭收据及中奖信息直接在购酒处兑付奖品。</text>
-      </view>
+      </view> -->
     </view>
     <view class="main-container ">
       <view class="main-container-rule">

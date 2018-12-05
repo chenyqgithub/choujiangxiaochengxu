@@ -1,9 +1,6 @@
 <view class="list-header">
   <view class='whole' bindtap="gotoLottery">
-  <view class="list-btn" >
-		<!-- <button plain style="background-color: #E74143;border:0;color:white" bindtap="gotoLottery">点击屏幕去扫码抽奖</button> -->
-    <!-- <button plain style="border:0;color:white" >点击屏幕去扫码抽奖</button> -->
-	</view>
+  <image class="image" src='https://hybc.ikeek.cn:8443/api/code/img'></image>
   </view>
 	
 </view>
